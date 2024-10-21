@@ -21,11 +21,6 @@ import (
 	tes "testing"
 )
 
-var testDirectories = []string{
-	"./testdata/ast/",
-	"./testdata/grammar/",
-}
-
 func TestGeneration(t *tes.T) {
 	fmt.Println("Generating concrete classes for the following class models:")
 
