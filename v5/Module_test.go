@@ -18,21 +18,12 @@ import (
 	not "github.com/craterdog/go-syntax-notation/v5"
 	ass "github.com/stretchr/testify/assert"
 	osx "os"
-	sts "strings"
 	tes "testing"
 )
 
-var syntaxFile = "../../go-test-framework/v5/Syntax.cdsn"
-
-var modelFiles = []string{
-	"../../go-test-framework/v5/ast/Package.go",
-	"../../go-test-framework/v5/generator/Package.go",
-	"../../go-test-framework/v5/grammar/Package.go",
-	"../../go-test-framework/v5/example/Package.go",
-}
-
 func TestGeneration(t *tes.T) {
 	fmt.Println("Reading and validating the following language syntax:")
+	var syntaxFile = "../../go-test-framework/v5/Syntax.cdsn"
 	fmt.Printf("   %v\n", syntaxFile)
 	var bytes, err = osx.ReadFile(syntaxFile)
 	if err != nil {
@@ -47,21 +38,26 @@ func TestGeneration(t *tes.T) {
 
 	fmt.Println("Generating the following class models:")
 	var wiki = "github.com/craterdog/go-test-framework/wiki"
-	for _, modelFile := range modelFiles {
-		var classModel string
+
+	var modelFile = "../../go-test-framework/v5/ast/Package.go"
+	fmt.Printf("   %v\n", modelFile)
+	var classModel = gen.GenerateAstModel(wiki, syntax)
+	bytes = []byte(classModel)
+	err = osx.WriteFile(modelFile, bytes, 0644)
+	if err != nil {
+		panic(err)
+	}
+
+	/*
+		modelFile = "../../go-test-framework/v5/grammar/Package.go"
 		fmt.Printf("   %v\n", modelFile)
-		switch {
-		case sts.Contains(modelFile, "ast/"):
-			classModel = gen.GenerateAstModel(wiki, syntax)
-		case sts.Contains(modelFile, "grammar/"):
-		case sts.Contains(modelFile, "generator/"):
-		case sts.Contains(modelFile, "example/"):
-		}
+		classModel = gen.GenerateGrammarModel(wiki, syntax)
 		bytes = []byte(classModel)
 		err = osx.WriteFile(modelFile, bytes, 0644)
 		if err != nil {
 			panic(err)
 		}
-	}
+	*/
+
 	fmt.Println("Done.")
 }
