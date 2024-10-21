@@ -20,19 +20,19 @@ import (
 
 // Access Function
 
-func Intrinsic() IntrinsicClassLike {
-	return intrinsicReference()
+func Definition() DefinitionClassLike {
+	return definitionReference()
 }
 
 // Constructor Methods
 
-func (c *intrinsicClass_) Make(
+func (c *definitionClass_) Make(
 	any_ any,
-) IntrinsicLike {
+) DefinitionLike {
 	if uti.IsUndefined(any_) {
 		panic("The \"any\" attribute is required by this class.")
 	}
-	var instance = &intrinsic_{
+	var instance = &definition_{
 		// Initialize the instance attributes.
 		any_: any_,
 	}
@@ -44,13 +44,13 @@ func (c *intrinsicClass_) Make(
 
 // Primary Methods
 
-func (v *intrinsic_) GetClass() IntrinsicClassLike {
-	return intrinsicReference()
+func (v *definition_) GetClass() DefinitionClassLike {
+	return definitionReference()
 }
 
 // Attribute Methods
 
-func (v *intrinsic_) GetAny() any {
+func (v *definition_) GetAny() any {
 	return v.any_
 }
 
@@ -60,23 +60,23 @@ func (v *intrinsic_) GetAny() any {
 
 // Instance Structure
 
-type intrinsic_ struct {
+type definition_ struct {
 	// Declare the instance attributes.
 	any_ any
 }
 
 // Class Structure
 
-type intrinsicClass_ struct {
+type definitionClass_ struct {
 	// Declare the class constants.
 }
 
 // Class Reference
 
-func intrinsicReference() *intrinsicClass_ {
-	return intrinsicReference_
+func definitionReference() *definitionClass_ {
+	return definitionReference_
 }
 
-var intrinsicReference_ = &intrinsicClass_{
+var definitionReference_ = &definitionClass_{
 	// Initialize the class constants.
 }

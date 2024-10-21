@@ -13,8 +13,6 @@
 package generator_test
 
 import (
-	ge2 "github.com/craterdog/go-class-generation/v5"
-	mod "github.com/craterdog/go-class-model/v5"
 	gen "github.com/craterdog/go-syntax-generation/v5/generator"
 	not "github.com/craterdog/go-syntax-notation/v5"
 	ass "github.com/stretchr/testify/assert"
@@ -24,8 +22,8 @@ import (
 
 var directory = "../testdata/"
 
-func TestRoundTrips(t *tes.T) {
-	// Read in the syntax notation and validate it.
+func TestGeneration(t *tes.T) {
+	// Validate the language grammar.
 	var filename = directory + "Syntax.cdsn"
 	var bytes, err = osx.ReadFile(filename)
 	if err != nil {
@@ -39,27 +37,12 @@ func TestRoundTrips(t *tes.T) {
 
 	// Generate the AST Package.go file.
 	filename = directory + "ast/Package.go"
-	var wiki = "github.com/craterdog/go-test-framework/wiki"
+	var wiki = "github.com/craterdog/go-syntax-notation/wiki"
 	source = gen.AstGenerator().Make().GenerateAstModel(wiki, syntax)
 	bytes = []byte(source)
 	err = osx.WriteFile(filename, bytes, 0644)
 	if err != nil {
 		panic(err)
-	}
-
-	// Generate the AST classes.
-	var model = mod.ParseSource(source)
-	var classes = ge2.GenerateModelClasses(model).GetIterator()
-	for classes.HasNext() {
-		var class = classes.GetNext()
-		var className = class.GetKey()
-		filename = directory + "ast/" + className + ".go"
-		source = class.GetValue()
-		bytes = []byte(source)
-		err = osx.WriteFile(filename, bytes, 0644)
-		if err != nil {
-			panic(err)
-		}
 	}
 
 	// Generate the grammar Package.go file.

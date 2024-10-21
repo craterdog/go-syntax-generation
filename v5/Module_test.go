@@ -14,48 +14,104 @@ package module_test
 
 import (
 	fmt "fmt"
-	gen "github.com/craterdog/go-syntax-generation/v5"
-	not "github.com/craterdog/go-syntax-notation/v5"
+	gen "github.com/craterdog/go-class-generation/v5"
+	mod "github.com/craterdog/go-class-model/v5"
 	ass "github.com/stretchr/testify/assert"
 	osx "os"
 	tes "testing"
 )
 
+var testDirectories = []string{
+	"./testdata/ast/",
+	"./testdata/grammar/",
+}
+
 func TestGeneration(t *tes.T) {
-	fmt.Println("Reading and validating the following language syntax:")
-	var syntaxFile = "../../go-test-framework/v5/Syntax.cdsn"
-	fmt.Printf("   %v\n", syntaxFile)
-	var bytes, err = osx.ReadFile(syntaxFile)
+	fmt.Println("Generating concrete classes for the following class models:")
+
+	// Validate the AST class model.
+	var directory = "./testdata/ast/"
+	var filename = directory + "Package.go"
+	fmt.Printf("   %v\n", filename)
+	var bytes, err = osx.ReadFile(filename)
 	if err != nil {
 		panic(err)
 	}
 	var source = string(bytes)
-	var syntax = not.ParseSource(source)
-	not.ValidateSyntax(syntax)
-	var actual = not.FormatSyntax(syntax)
+	var model = mod.ParseSource(source)
+	mod.ValidateModel(model)
+	var actual = mod.FormatModel(model)
 	ass.Equal(t, source, actual)
-	fmt.Println()
 
-	fmt.Println("Generating the following class models:")
-	var wiki = "github.com/craterdog/go-test-framework/wiki"
-
-	var modelFile = "../../go-test-framework/v5/ast/Package.go"
-	fmt.Printf("   %v\n", modelFile)
-	var classModel = gen.GenerateAstModel(wiki, syntax)
-	bytes = []byte(classModel)
-	err = osx.WriteFile(modelFile, bytes, 0644)
+	// Recreate the AST package directory.
+	err = osx.RemoveAll(directory)
+	if err != nil {
+		panic(err)
+	}
+	err = osx.Mkdir(directory, 0755)
+	if err != nil {
+		panic(err)
+	}
+	err = osx.WriteFile(filename, bytes, 0644)
 	if err != nil {
 		panic(err)
 	}
 
-	/*
-		modelFile = "../../go-test-framework/v5/grammar/Package.go"
-		fmt.Printf("   %v\n", modelFile)
-		classModel = gen.GenerateGrammarModel(wiki, syntax)
-		bytes = []byte(classModel)
-		err = osx.WriteFile(modelFile, bytes, 0644)
+	// Generate the concrete AST class files.
+	var classes = gen.GenerateModelClasses(model).GetIterator()
+	for classes.HasNext() {
+		var association = classes.GetNext()
+		var className = association.GetKey()
+		var classSource = association.GetValue()
+		bytes = []byte(classSource)
+		var filename = directory + className + ".go"
+		err = osx.WriteFile(filename, bytes, 0644)
 		if err != nil {
 			panic(err)
+		}
+	}
+
+	/*
+		// Validate the grammar class model.
+		directory = "./testdata/grammar/"
+		filename = directory + "Package.go"
+		fmt.Printf("   %v\n", filename)
+		bytes, err = osx.ReadFile(filename)
+		if err != nil {
+			panic(err)
+		}
+		source = string(bytes)
+		model = mod.ParseSource(source)
+		mod.ValidateModel(model)
+		actual = mod.FormatModel(model)
+		ass.Equal(t, source, actual)
+
+		// Recreate the grammar package directory.
+		err = osx.RemoveAll(directory)
+		if err != nil {
+			panic(err)
+		}
+		err = osx.Mkdir(directory, 0755)
+		if err != nil {
+			panic(err)
+		}
+		err = osx.WriteFile(filename, bytes, 0644)
+		if err != nil {
+			panic(err)
+		}
+
+		// Generate the concrete grammar class files.
+		classes = gen.GenerateModelClasses(model).GetIterator()
+		for classes.HasNext() {
+			var association = classes.GetNext()
+			var className = association.GetKey()
+			var classSource = association.GetValue()
+			bytes = []byte(classSource)
+			var filename = directory + className + ".go"
+			err = osx.WriteFile(filename, bytes, 0644)
+			if err != nil {
+				panic(err)
+			}
 		}
 	*/
 

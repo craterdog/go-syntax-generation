@@ -11,10 +11,10 @@
 <!
 
 !>
-EXAMPLE NOTATION
-This document contains a formal definition of an example syntax notation using
-Crater Dog Syntax Notation™ (CDSN):
- * https://github.com/craterdog/go-syntax-notation/blob/main/v5/cdsn/Syntax.cdsn
+CRATER DOG SYNTAX NOTATION
+This document contains a formal definition of the Crater Dog Syntax Notation™
+(CDSN) using CDSN itself in homage to Douglas Hofstadter of Gödel, Escher, Bach
+fame.
 
 A language syntax consists of a set of rule definitions and regular expression
 patterns.
@@ -51,35 +51,114 @@ sequence of terms within in a rule definition may be separated by spaces which
 are ignored by the parser.  Newlines are also ignored unless explicitly
 specified as terms in one or more rule definitions.
 <!
-$Document: Component+  ! This is the top-level rule.
+$Syntax: Notice comment Rule+ comment Expression+
 
-$Component:
-  - Intrinsic
-  - List
+$Notice: comment
 
-$Intrinsic:
-  - integer
-  - rune
-  - text
+$Rule: "$" uppercase ":" Definition
 
-$List: "[" Component Additional* "]"
+$Definition:
+  - Multiline
+  - Inline
 
-$Additional: "," Component
+$Multiline: Line+
+
+$Line: "-" Identifier note?
+
+$Identifier:
+  - lowercase
+  - uppercase
+
+$Inline: Term+ note?
+
+$Term:
+  - Reference
+  - literal
+
+$Reference: Identifier Cardinality?  ! The default cardinality is one.
+
+$Cardinality:
+  - Constrained
+  - Quantified
+
+$Constrained:
+  - optional
+  - repeated
+
+$Quantified: "{" number Limit? "}"
+
+$Limit: ".." number?  ! The limit of a range of numbers is inclusive.
+
+$Expression: "$" lowercase ":" Pattern note?
+
+$Pattern: Option Alternative*
+
+$Alternative: "|" Option
+
+$Option: Repetition+
+
+$Repetition: Element Cardinality?  ! The default cardinality is one.
+
+$Element:
+  - Group
+  - Filter
+  - Text
+
+$Group: "(" Pattern ")"
+
+$Filter: excluded? "[" Character+ "]"
+
+$Character:
+  - Explicit
+  - intrinsic
+
+$Explicit: glyph Extent?
+
+$Extent: ".." glyph  ! The extent of a range of glyphs is inclusive.
+
+$Text:
+  - intrinsic
+  - glyph
+  - literal
+  - lowercase
 
 !>
-EXPRESSION DEFINITIONS
-The following expression definitions are used by the scanner to generate the
-stream of tokens—each an instance of an expression type—that are to be processed by
-the parser.  Each expression name begins with a lowercase letter.  Unlike with
-rule definitions, an expression definition cannot specify the name of a rule within
-its definition, but it may specify the name of another expression.  Expression
-definitions cannot be recursive and the scanning of expressions is NOT greedy.
-Any spaces within an expression definition are part of the expression and are NOT
-ignored.
+EXPRESSION PATTERNS
+The following regular expression patterns are used by the scanner to generate
+a stream of tokens—each a match of a regular expression—that are to be processed
+by the parser.  Each regular expression name begins with a lowercase letter.
+Unlike rule definitions, a regular expression pattern cannot specify the name of
+a rule within its pattern—but it may specify the name of another regular
+expression.  Regular expression patterns cannot be recursive and the scanning of
+patterns is greedy unless the pattern contains the ANY intrinsic character.  Any
+spaces within a regular expression pattern are part of the regular expression
+and are NOT ignored.
 <!
-$integer: '0' | '-'? ['1'..'9'] DIGIT*
+$base16: ['0'..'9' 'a'..'f']
 
-$rune: "'" ~[CONTROL] "'"  ! Any single printable unicode character.
+$comment: "!>" EOL (ANY | EOL)* EOL "<!" EOL  ! Chooses the shortest possible match.
 
-$text: '"' ~['"' CONTROL]+ '"'
+$escape: '\' (unicode | ['a' 'b' 'f' 'n' 'r' 't' 'v' '"' '\'])
+
+$excluded: "~"
+
+$glyph: "'" ~[CONTROL] "'"  ! Any printable unicode character.
+
+$intrinsic: "ANY" | "CONTROL" | "DIGIT" | "EOL" | "LOWER" | "UPPER"
+
+$literal: '"' (escape | ~['"' CONTROL])+ '"'
+
+$lowercase: LOWER (DIGIT | LOWER | UPPER)*
+
+$note: "! " ~[CONTROL]*
+
+$number: DIGIT+
+
+$optional: "?"
+
+$repeated: "*" | "+"
+
+$unicode: ('x' base16{2}) | ('u' base16{4}) | ('U' base16{8})
+
+$uppercase: UPPER (DIGIT | LOWER | UPPER)*
 

@@ -13,6 +13,7 @@
 package ast
 
 import (
+	abs "github.com/craterdog/go-collection-framework/v4/collection"
 	uti "github.com/craterdog/go-missing-utilities/v2"
 )
 
@@ -20,21 +21,23 @@ import (
 
 // Access Function
 
-func Component() ComponentClassLike {
-	return componentReference()
+func Filter() FilterClassLike {
+	return filterReference()
 }
 
 // Constructor Methods
 
-func (c *componentClass_) Make(
-	any_ any,
-) ComponentLike {
-	if uti.IsUndefined(any_) {
-		panic("The \"any\" attribute is required by this class.")
+func (c *filterClass_) Make(
+	optionalExcluded string,
+	characters abs.Sequential[CharacterLike],
+) FilterLike {
+	if uti.IsUndefined(characters) {
+		panic("The \"characters\" attribute is required by this class.")
 	}
-	var instance = &component_{
+	var instance = &filter_{
 		// Initialize the instance attributes.
-		any_: any_,
+		optionalExcluded_: optionalExcluded,
+		characters_:       characters,
 	}
 	return instance
 
@@ -44,14 +47,18 @@ func (c *componentClass_) Make(
 
 // Primary Methods
 
-func (v *component_) GetClass() ComponentClassLike {
-	return componentReference()
+func (v *filter_) GetClass() FilterClassLike {
+	return filterReference()
 }
 
 // Attribute Methods
 
-func (v *component_) GetAny() any {
-	return v.any_
+func (v *filter_) GetOptionalExcluded() string {
+	return v.optionalExcluded_
+}
+
+func (v *filter_) GetCharacters() abs.Sequential[CharacterLike] {
+	return v.characters_
 }
 
 // PROTECTED INTERFACE
@@ -60,23 +67,24 @@ func (v *component_) GetAny() any {
 
 // Instance Structure
 
-type component_ struct {
+type filter_ struct {
 	// Declare the instance attributes.
-	any_ any
+	optionalExcluded_ string
+	characters_       abs.Sequential[CharacterLike]
 }
 
 // Class Structure
 
-type componentClass_ struct {
+type filterClass_ struct {
 	// Declare the class constants.
 }
 
 // Class Reference
 
-func componentReference() *componentClass_ {
-	return componentReference_
+func filterReference() *filterClass_ {
+	return filterReference_
 }
 
-var componentReference_ = &componentClass_{
+var filterReference_ = &filterClass_{
 	// Initialize the class constants.
 }

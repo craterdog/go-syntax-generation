@@ -20,21 +20,21 @@ import (
 
 // Access Function
 
-func Additional() AdditionalClassLike {
-	return additionalReference()
+func Extent() ExtentClassLike {
+	return extentReference()
 }
 
 // Constructor Methods
 
-func (c *additionalClass_) Make(
-	component ComponentLike,
-) AdditionalLike {
-	if uti.IsUndefined(component) {
-		panic("The \"component\" attribute is required by this class.")
+func (c *extentClass_) Make(
+	glyph string,
+) ExtentLike {
+	if uti.IsUndefined(glyph) {
+		panic("The \"glyph\" attribute is required by this class.")
 	}
-	var instance = &additional_{
+	var instance = &extent_{
 		// Initialize the instance attributes.
-		component_: component,
+		glyph_: glyph,
 	}
 	return instance
 
@@ -44,14 +44,14 @@ func (c *additionalClass_) Make(
 
 // Primary Methods
 
-func (v *additional_) GetClass() AdditionalClassLike {
-	return additionalReference()
+func (v *extent_) GetClass() ExtentClassLike {
+	return extentReference()
 }
 
 // Attribute Methods
 
-func (v *additional_) GetComponent() ComponentLike {
-	return v.component_
+func (v *extent_) GetGlyph() string {
+	return v.glyph_
 }
 
 // PROTECTED INTERFACE
@@ -60,23 +60,23 @@ func (v *additional_) GetComponent() ComponentLike {
 
 // Instance Structure
 
-type additional_ struct {
+type extent_ struct {
 	// Declare the instance attributes.
-	component_ ComponentLike
+	glyph_ string
 }
 
 // Class Structure
 
-type additionalClass_ struct {
+type extentClass_ struct {
 	// Declare the class constants.
 }
 
 // Class Reference
 
-func additionalReference() *additionalClass_ {
-	return additionalReference_
+func extentReference() *extentClass_ {
+	return extentReference_
 }
 
-var additionalReference_ = &additionalClass_{
+var extentReference_ = &extentClass_{
 	// Initialize the class constants.
 }

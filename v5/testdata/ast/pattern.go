@@ -21,26 +21,26 @@ import (
 
 // Access Function
 
-func List() ListClassLike {
-	return listReference()
+func Pattern() PatternClassLike {
+	return patternReference()
 }
 
 // Constructor Methods
 
-func (c *listClass_) Make(
-	component ComponentLike,
-	additionals abs.Sequential[AdditionalLike],
-) ListLike {
-	if uti.IsUndefined(component) {
-		panic("The \"component\" attribute is required by this class.")
+func (c *patternClass_) Make(
+	option OptionLike,
+	alternatives abs.Sequential[AlternativeLike],
+) PatternLike {
+	if uti.IsUndefined(option) {
+		panic("The \"option\" attribute is required by this class.")
 	}
-	if uti.IsUndefined(additionals) {
-		panic("The \"additionals\" attribute is required by this class.")
+	if uti.IsUndefined(alternatives) {
+		panic("The \"alternatives\" attribute is required by this class.")
 	}
-	var instance = &list_{
+	var instance = &pattern_{
 		// Initialize the instance attributes.
-		component_:   component,
-		additionals_: additionals,
+		option_:       option,
+		alternatives_: alternatives,
 	}
 	return instance
 
@@ -50,18 +50,18 @@ func (c *listClass_) Make(
 
 // Primary Methods
 
-func (v *list_) GetClass() ListClassLike {
-	return listReference()
+func (v *pattern_) GetClass() PatternClassLike {
+	return patternReference()
 }
 
 // Attribute Methods
 
-func (v *list_) GetComponent() ComponentLike {
-	return v.component_
+func (v *pattern_) GetOption() OptionLike {
+	return v.option_
 }
 
-func (v *list_) GetAdditionals() abs.Sequential[AdditionalLike] {
-	return v.additionals_
+func (v *pattern_) GetAlternatives() abs.Sequential[AlternativeLike] {
+	return v.alternatives_
 }
 
 // PROTECTED INTERFACE
@@ -70,24 +70,24 @@ func (v *list_) GetAdditionals() abs.Sequential[AdditionalLike] {
 
 // Instance Structure
 
-type list_ struct {
+type pattern_ struct {
 	// Declare the instance attributes.
-	component_   ComponentLike
-	additionals_ abs.Sequential[AdditionalLike]
+	option_       OptionLike
+	alternatives_ abs.Sequential[AlternativeLike]
 }
 
 // Class Structure
 
-type listClass_ struct {
+type patternClass_ struct {
 	// Declare the class constants.
 }
 
 // Class Reference
 
-func listReference() *listClass_ {
-	return listReference_
+func patternReference() *patternClass_ {
+	return patternReference_
 }
 
-var listReference_ = &listClass_{
+var patternReference_ = &patternClass_{
 	// Initialize the class constants.
 }

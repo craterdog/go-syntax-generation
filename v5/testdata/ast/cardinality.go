@@ -13,7 +13,6 @@
 package ast
 
 import (
-	abs "github.com/craterdog/go-collection-framework/v4/collection"
 	uti "github.com/craterdog/go-missing-utilities/v2"
 )
 
@@ -21,21 +20,21 @@ import (
 
 // Access Function
 
-func Document() DocumentClassLike {
-	return documentReference()
+func Cardinality() CardinalityClassLike {
+	return cardinalityReference()
 }
 
 // Constructor Methods
 
-func (c *documentClass_) Make(
-	components abs.Sequential[ComponentLike],
-) DocumentLike {
-	if uti.IsUndefined(components) {
-		panic("The \"components\" attribute is required by this class.")
+func (c *cardinalityClass_) Make(
+	any_ any,
+) CardinalityLike {
+	if uti.IsUndefined(any_) {
+		panic("The \"any\" attribute is required by this class.")
 	}
-	var instance = &document_{
+	var instance = &cardinality_{
 		// Initialize the instance attributes.
-		components_: components,
+		any_: any_,
 	}
 	return instance
 
@@ -45,14 +44,14 @@ func (c *documentClass_) Make(
 
 // Primary Methods
 
-func (v *document_) GetClass() DocumentClassLike {
-	return documentReference()
+func (v *cardinality_) GetClass() CardinalityClassLike {
+	return cardinalityReference()
 }
 
 // Attribute Methods
 
-func (v *document_) GetComponents() abs.Sequential[ComponentLike] {
-	return v.components_
+func (v *cardinality_) GetAny() any {
+	return v.any_
 }
 
 // PROTECTED INTERFACE
@@ -61,23 +60,23 @@ func (v *document_) GetComponents() abs.Sequential[ComponentLike] {
 
 // Instance Structure
 
-type document_ struct {
+type cardinality_ struct {
 	// Declare the instance attributes.
-	components_ abs.Sequential[ComponentLike]
+	any_ any
 }
 
 // Class Structure
 
-type documentClass_ struct {
+type cardinalityClass_ struct {
 	// Declare the class constants.
 }
 
 // Class Reference
 
-func documentReference() *documentClass_ {
-	return documentReference_
+func cardinalityReference() *cardinalityClass_ {
+	return cardinalityReference_
 }
 
-var documentReference_ = &documentClass_{
+var cardinalityReference_ = &cardinalityClass_{
 	// Initialize the class constants.
 }
