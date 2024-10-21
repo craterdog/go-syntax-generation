@@ -326,9 +326,9 @@ type SyntaxClassLike interface {
 	// Constructor Methods
 	Make(
 		notice NoticeLike,
-		comment string,
+		comment1 string,
 		rules abs.Sequential[RuleLike],
-		comment string,
+		comment2 string,
 		expressions abs.Sequential[ExpressionLike],
 	) SyntaxLike
 }
@@ -680,9 +680,9 @@ type SyntaxLike interface {
 
 	// Attribute Methods
 	GetNotice() NoticeLike
-	GetComment() string
+	GetComment1() string
 	GetRules() abs.Sequential[RuleLike]
-	GetComment() string
+	GetComment2() string
 	GetExpressions() abs.Sequential[ExpressionLike]
 }
 

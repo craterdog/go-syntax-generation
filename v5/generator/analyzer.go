@@ -411,8 +411,7 @@ func (v *analyzer_) PostprocessRule(
 	size uint,
 ) {
 	var ruleName = rule.GetUppercase()
-	v.ruleName_ = ruleName
-	v.ruleNames_.AddValue(ruleName)
+	v.uniquifyReferences(ruleName)
 	if v.hasLiteral_ {
 		v.delimited_.AddValue(ruleName)
 	}
@@ -522,6 +521,49 @@ func (v *analyzer_) extractSyntaxName(syntax ast.SyntaxLike) string {
 	var rule = rules.GetNext()
 	var name = rule.GetUppercase()
 	return name
+}
+
+func (v *analyzer_) uniquifyReference(
+	reference ast.ReferenceLike,
+	count int,
+) ast.ReferenceLike {
+	var identifier = reference.GetIdentifier()
+	var name = identifier.GetAny().(string)
+	identifier = ast.Identifier().Make(name + stc.Itoa(count))
+	var cardinality = reference.GetOptionalCardinality()
+	return ast.Reference().Make(
+		identifier,
+		cardinality,
+	)
+}
+
+func (v *analyzer_) uniquifyReferences(ruleName string) {
+	var references = v.references_.GetValue(ruleName)
+	if uti.IsDefined(references) {
+		var left = references.GetIterator()
+		var right = references.GetIterator()
+		for left.HasNext() {
+			var leftReference = left.GetNext()
+			var leftName = leftReference.GetIdentifier().GetAny().(string)
+			right.ToSlot(left.GetSlot())
+			for right.HasNext() {
+				var count = 1
+				var rightReference = right.GetNext()
+				var rightName = rightReference.GetIdentifier().GetAny().(string)
+				if leftName == rightName {
+					if count == 1 {
+						leftReference = v.uniquifyReference(leftReference, count)
+						var index = left.GetSlot()
+						references.SetValue(index, leftReference)
+					}
+					count++
+					rightReference = v.uniquifyReference(rightReference, count)
+					var index = right.GetSlot()
+					references.SetValue(index, rightReference)
+				}
+			}
+		}
+	}
 }
 
 // Instance Structure
