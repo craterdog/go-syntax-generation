@@ -29,22 +29,22 @@ func Syntax() SyntaxClassLike {
 
 func (c *syntaxClass_) Make(
 	notice NoticeLike,
-	comment string,
+	comment1 string,
 	rules abs.Sequential[RuleLike],
-	comment string,
+	comment2 string,
 	expressions abs.Sequential[ExpressionLike],
 ) SyntaxLike {
 	if uti.IsUndefined(notice) {
 		panic("The \"notice\" attribute is required by this class.")
 	}
-	if uti.IsUndefined(comment) {
-		panic("The \"comment\" attribute is required by this class.")
+	if uti.IsUndefined(comment1) {
+		panic("The \"comment1\" attribute is required by this class.")
 	}
 	if uti.IsUndefined(rules) {
 		panic("The \"rules\" attribute is required by this class.")
 	}
-	if uti.IsUndefined(comment) {
-		panic("The \"comment\" attribute is required by this class.")
+	if uti.IsUndefined(comment2) {
+		panic("The \"comment2\" attribute is required by this class.")
 	}
 	if uti.IsUndefined(expressions) {
 		panic("The \"expressions\" attribute is required by this class.")
@@ -52,9 +52,9 @@ func (c *syntaxClass_) Make(
 	var instance = &syntax_{
 		// Initialize the instance attributes.
 		notice_:      notice,
-		comment_:     comment,
+		comment1_:    comment1,
 		rules_:       rules,
-		comment_:     comment,
+		comment2_:    comment2,
 		expressions_: expressions,
 	}
 	return instance
@@ -75,16 +75,16 @@ func (v *syntax_) GetNotice() NoticeLike {
 	return v.notice_
 }
 
-func (v *syntax_) GetComment() string {
-	return v.comment_
+func (v *syntax_) GetComment1() string {
+	return v.comment1_
 }
 
 func (v *syntax_) GetRules() abs.Sequential[RuleLike] {
 	return v.rules_
 }
 
-func (v *syntax_) GetComment() string {
-	return v.comment_
+func (v *syntax_) GetComment2() string {
+	return v.comment2_
 }
 
 func (v *syntax_) GetExpressions() abs.Sequential[ExpressionLike] {
@@ -100,8 +100,9 @@ func (v *syntax_) GetExpressions() abs.Sequential[ExpressionLike] {
 type syntax_ struct {
 	// Declare the instance attributes.
 	notice_      NoticeLike
-	comment_     string
+	comment1_    string
 	rules_       abs.Sequential[RuleLike]
+	comment2_    string
 	expressions_ abs.Sequential[ExpressionLike]
 }
 
