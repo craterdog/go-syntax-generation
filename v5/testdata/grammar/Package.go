@@ -11,9 +11,15 @@
 */
 
 /*
-Package "grammar" provides the abstract syntax tree (AST) classes for this module.
-Each AST class manages the attributes associated with the rule definition found
-in the syntax grammar with the same rule name as the class.
+Package "grammar" provides the following grammar classes that operate on the
+abstract syntax tree (AST) for this module:
+  - Token captures the attributes associated with a parsed token.
+  - Scanner is used to scan the source byte stream and recognize matching tokens.
+  - Parser is used to process the token stream and generate the AST.
+  - Validator is used to validate the semantics associated with an AST.
+  - Formatter is used to format an AST back into a canonical version of its source.
+  - Visitor walks the AST and calls processor methods for each node in the tree.
+  - Processor provides empty processor methods to be inherited by the processors.
 
 For detailed documentation on this package refer to the wiki:
   - https://github.com/craterdog/go-syntax-notation/wiki
@@ -21,6 +27,11 @@ For detailed documentation on this package refer to the wiki:
 This package follows the Crater Dog Technologies™ Go Coding Conventions located
 here:
   - https://github.com/craterdog/go-class-model/wiki
+
+Additional concrete implementations of the classes defined by this package can
+be developed and used seamlessly since the interface definitions only depend on
+other interfaces and intrinsic types—and the class implementations only depend
+on interfaces, not on each other.
 */
 package grammar
 
@@ -279,9 +290,6 @@ type Methodical interface {
 	ProcessLowercase(
 		lowercase string,
 	)
-	ProcessNewline(
-		newline string,
-	)
 	ProcessNote(
 		note string,
 	)
@@ -293,9 +301,6 @@ type Methodical interface {
 	)
 	ProcessRepeated(
 		repeated string,
-	)
-	ProcessSpace(
-		space string,
 	)
 	ProcessUppercase(
 		uppercase string,

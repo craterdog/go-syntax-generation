@@ -86,12 +86,6 @@ func (v *validator_) ProcessLowercase(
 	// TBD - Add the method implementation.
 }
 
-func (v *validator_) ProcessNewline(
-	newline string,
-) {
-	// TBD - Add the method implementation.
-}
-
 func (v *validator_) ProcessNote(
 	note string,
 ) {
@@ -112,12 +106,6 @@ func (v *validator_) ProcessOptional(
 
 func (v *validator_) ProcessRepeated(
 	repeated string,
-) {
-	// TBD - Add the method implementation.
-}
-
-func (v *validator_) ProcessSpace(
-	space string,
 ) {
 	// TBD - Add the method implementation.
 }
