@@ -61,6 +61,13 @@ func TestGeneration(t *tes.T) {
 	// Generate the parser class file.
 
 	// Generate the processor class file.
+	filename = directory + "grammar/processor.go"
+	source = gen.ProcessorGenerator().Make().GenerateProcessorClass(module, syntax)
+	bytes = []byte(source)
+	err = osx.WriteFile(filename, bytes, 0644)
+	if err != nil {
+		panic(err)
+	}
 
 	// Generate the scanner class file.
 

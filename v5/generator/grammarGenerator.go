@@ -176,7 +176,6 @@ func (v *grammarGenerator_) generateProcessRules() (
 		var processRule = v.generateProcessRule(ruleName)
 		implementation += processRule
 	}
-	implementation += "\n"
 	return implementation
 }
 
@@ -525,7 +524,8 @@ type VisitorLike interface {
 Methodical defines the set of method signatures that must be supported
 by all methodical processors.
 */
-type Methodical interface {<ProcessTokens><ProcessRules>}`,
+type Methodical interface {<ProcessTokens><ProcessRules>
+}`,
 
 	processToken_: `
 	Process<~TokenName>(

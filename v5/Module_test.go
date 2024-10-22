@@ -94,19 +94,19 @@ func TestGeneration(t *tes.T) {
 		panic(err)
 	}
 
-	// Generate the concrete grammar class files.
-	classes = gen.GenerateModelClasses(model).GetIterator()
-	for classes.HasNext() {
-		var association = classes.GetNext()
-		var className = association.GetKey()
-		var classSource = association.GetValue()
-		bytes = []byte(classSource)
-		var filename = directory + className + ".go"
-		err = osx.WriteFile(filename, bytes, 0644)
-		if err != nil {
-			panic(err)
-		}
-	}
+	// Generate the formatter class file.
+
+	// Generate the parser class file.
+
+	// Generate the processor class file.
+
+	// Generate the scanner class file.
+
+	// Generate the token class file.
+
+	// Generate the validator class file.
+
+	// Generate the visitor class file.
 
 	fmt.Println("Done.")
 }
