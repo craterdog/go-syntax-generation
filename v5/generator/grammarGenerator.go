@@ -185,8 +185,7 @@ func (v *grammarGenerator_) generateProcessToken(
 ) (
 	implementation string,
 ) {
-	switch tokenName {
-	case "delimiter", "newline", "space":
+	if tokenName == "delimiter" {
 		return implementation
 	}
 	implementation = grammarGeneratorReference().processToken_

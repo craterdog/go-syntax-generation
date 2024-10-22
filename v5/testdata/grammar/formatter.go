@@ -88,6 +88,12 @@ func (v *formatter_) ProcessLowercase(
 	// TBD - Add the method implementation.
 }
 
+func (v *formatter_) ProcessNewline(
+	newline string,
+) {
+	// TBD - Add the method implementation.
+}
+
 func (v *formatter_) ProcessNote(
 	note string,
 ) {
@@ -108,6 +114,12 @@ func (v *formatter_) ProcessOptional(
 
 func (v *formatter_) ProcessRepeated(
 	repeated string,
+) {
+	// TBD - Add the method implementation.
+}
+
+func (v *formatter_) ProcessSpace(
+	space string,
 ) {
 	// TBD - Add the method implementation.
 }

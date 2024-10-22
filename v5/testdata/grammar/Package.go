@@ -290,6 +290,9 @@ type Methodical interface {
 	ProcessLowercase(
 		lowercase string,
 	)
+	ProcessNewline(
+		newline string,
+	)
 	ProcessNote(
 		note string,
 	)
@@ -301,6 +304,9 @@ type Methodical interface {
 	)
 	ProcessRepeated(
 		repeated string,
+	)
+	ProcessSpace(
+		space string,
 	)
 	ProcessUppercase(
 		uppercase string,

@@ -80,6 +80,12 @@ func (v *processor_) ProcessLowercase(
 	// TBD - Add the method implementation.
 }
 
+func (v *processor_) ProcessNewline(
+	newline string,
+) {
+	// TBD - Add the method implementation.
+}
+
 func (v *processor_) ProcessNote(
 	note string,
 ) {
@@ -100,6 +106,12 @@ func (v *processor_) ProcessOptional(
 
 func (v *processor_) ProcessRepeated(
 	repeated string,
+) {
+	// TBD - Add the method implementation.
+}
+
+func (v *processor_) ProcessSpace(
+	space string,
 ) {
 	// TBD - Add the method implementation.
 }
