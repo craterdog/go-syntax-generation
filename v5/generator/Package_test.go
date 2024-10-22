@@ -46,6 +46,15 @@ func TestGeneration(t *tes.T) {
 	}
 
 	// Generate the grammar Package.go file.
+	filename = directory + "grammar/Package.go"
+	var module = "github.com/craterdog/go-syntax-notation/v5"
+	wiki = "github.com/craterdog/go-syntax-notation/wiki"
+	source = gen.GrammarGenerator().Make().GenerateGrammarModel(module, wiki, syntax)
+	bytes = []byte(source)
+	err = osx.WriteFile(filename, bytes, 0644)
+	if err != nil {
+		panic(err)
+	}
 
 	// Generate the formatter class file.
 

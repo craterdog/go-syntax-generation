@@ -181,7 +181,7 @@ type AnalyzerLike interface {
 		name string,
 	) bool
 
-	// Aspect Methods
+	// Aspect Interfaces
 	gra.Methodical
 }
 

@@ -66,49 +66,47 @@ func TestGeneration(t *tes.T) {
 		}
 	}
 
-	/*
-		// Validate the grammar class model.
-		directory = "./testdata/grammar/"
-		filename = directory + "Package.go"
-		fmt.Printf("   %v\n", filename)
-		bytes, err = osx.ReadFile(filename)
-		if err != nil {
-			panic(err)
-		}
-		source = string(bytes)
-		model = mod.ParseSource(source)
-		mod.ValidateModel(model)
-		actual = mod.FormatModel(model)
-		ass.Equal(t, source, actual)
+	// Validate the grammar class model.
+	directory = "./testdata/grammar/"
+	filename = directory + "Package.go"
+	fmt.Printf("   %v\n", filename)
+	bytes, err = osx.ReadFile(filename)
+	if err != nil {
+		panic(err)
+	}
+	source = string(bytes)
+	model = mod.ParseSource(source)
+	mod.ValidateModel(model)
+	actual = mod.FormatModel(model)
+	ass.Equal(t, source, actual)
 
-		// Recreate the grammar package directory.
-		err = osx.RemoveAll(directory)
-		if err != nil {
-			panic(err)
-		}
-		err = osx.Mkdir(directory, 0755)
-		if err != nil {
-			panic(err)
-		}
+	// Recreate the grammar package directory.
+	err = osx.RemoveAll(directory)
+	if err != nil {
+		panic(err)
+	}
+	err = osx.Mkdir(directory, 0755)
+	if err != nil {
+		panic(err)
+	}
+	err = osx.WriteFile(filename, bytes, 0644)
+	if err != nil {
+		panic(err)
+	}
+
+	// Generate the concrete grammar class files.
+	classes = gen.GenerateModelClasses(model).GetIterator()
+	for classes.HasNext() {
+		var association = classes.GetNext()
+		var className = association.GetKey()
+		var classSource = association.GetValue()
+		bytes = []byte(classSource)
+		var filename = directory + className + ".go"
 		err = osx.WriteFile(filename, bytes, 0644)
 		if err != nil {
 			panic(err)
 		}
-
-		// Generate the concrete grammar class files.
-		classes = gen.GenerateModelClasses(model).GetIterator()
-		for classes.HasNext() {
-			var association = classes.GetNext()
-			var className = association.GetKey()
-			var classSource = association.GetValue()
-			bytes = []byte(classSource)
-			var filename = directory + className + ".go"
-			err = osx.WriteFile(filename, bytes, 0644)
-			if err != nil {
-				panic(err)
-			}
-		}
-	*/
+	}
 
 	fmt.Println("Done.")
 }
