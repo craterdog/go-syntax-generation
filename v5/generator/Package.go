@@ -32,8 +32,7 @@ package generator
 
 import (
 	abs "github.com/craterdog/go-collection-framework/v4/collection"
-	ast "github.com/craterdog/go-syntax-notation/v5/ast"
-	gra "github.com/craterdog/go-syntax-notation/v5/grammar"
+	not "github.com/craterdog/go-syntax-notation/v5"
 )
 
 // Class Definitions
@@ -147,31 +146,31 @@ type AnalyzerLike interface {
 	// Primary Methods
 	GetClass() AnalyzerClassLike
 	AnalyzeSyntax(
-		syntax ast.SyntaxLike,
+		syntax not.SyntaxLike,
 	)
 	GetExpressions() abs.Sequential[abs.AssociationLike[string, string]]
 	GetIdentifiers(
 		ruleName string,
-	) abs.Sequential[ast.IdentifierLike]
+	) abs.Sequential[not.IdentifierLike]
 	GetNotice() string
 	GetReferences(
 		ruleName string,
-	) abs.Sequential[ast.ReferenceLike]
+	) abs.Sequential[not.ReferenceLike]
 	GetRuleNames() abs.Sequential[string]
 	GetSyntaxMap() string
 	GetSyntaxName() string
 	GetTerms(
 		ruleName string,
-	) abs.Sequential[ast.TermLike]
+	) abs.Sequential[not.TermLike]
 	GetTokenNames() abs.Sequential[string]
 	GetVariableName(
-		reference ast.ReferenceLike,
+		reference not.ReferenceLike,
 	) string
 	GetVariableNames(
-		references abs.Sequential[ast.ReferenceLike],
+		references abs.Sequential[not.ReferenceLike],
 	) abs.Sequential[string]
 	GetVariableType(
-		reference ast.ReferenceLike,
+		reference not.ReferenceLike,
 	) string
 	HasPlurals() bool
 	IsDelimited(
@@ -182,7 +181,7 @@ type AnalyzerLike interface {
 	) bool
 
 	// Aspect Interfaces
-	gra.Methodical
+	not.Methodical
 }
 
 /*
@@ -194,7 +193,7 @@ type AstGeneratorLike interface {
 	GetClass() AstGeneratorClassLike
 	GenerateAstModel(
 		wiki string,
-		syntax ast.SyntaxLike,
+		syntax not.SyntaxLike,
 	) (
 		implementation string,
 	)
@@ -209,7 +208,7 @@ type FormatterGeneratorLike interface {
 	GetClass() FormatterGeneratorClassLike
 	GenerateFormatterClass(
 		module string,
-		syntax ast.SyntaxLike,
+		syntax not.SyntaxLike,
 	) (
 		implementation string,
 	)
@@ -225,7 +224,7 @@ type GrammarGeneratorLike interface {
 	GenerateGrammarModel(
 		module string,
 		wiki string,
-		syntax ast.SyntaxLike,
+		syntax not.SyntaxLike,
 	) (
 		implementation string,
 	)
@@ -240,7 +239,7 @@ type ParserGeneratorLike interface {
 	GetClass() ParserGeneratorClassLike
 	GenerateParserClass(
 		module string,
-		syntax ast.SyntaxLike,
+		syntax not.SyntaxLike,
 	) (
 		implementation string,
 	)
@@ -255,7 +254,7 @@ type ProcessorGeneratorLike interface {
 	GetClass() ProcessorGeneratorClassLike
 	GenerateProcessorClass(
 		module string,
-		syntax ast.SyntaxLike,
+		syntax not.SyntaxLike,
 	) (
 		implementation string,
 	)
@@ -270,7 +269,7 @@ type ScannerGeneratorLike interface {
 	GetClass() ScannerGeneratorClassLike
 	GenerateScannerClass(
 		module string,
-		syntax ast.SyntaxLike,
+		syntax not.SyntaxLike,
 	) (
 		implementation string,
 	)
@@ -300,7 +299,7 @@ type TokenGeneratorLike interface {
 	GetClass() TokenGeneratorClassLike
 	GenerateTokenClass(
 		module string,
-		syntax ast.SyntaxLike,
+		syntax not.SyntaxLike,
 	) (
 		implementation string,
 	)
@@ -315,7 +314,7 @@ type ValidatorGeneratorLike interface {
 	GetClass() ValidatorGeneratorClassLike
 	GenerateValidatorClass(
 		module string,
-		syntax ast.SyntaxLike,
+		syntax not.SyntaxLike,
 	) (
 		implementation string,
 	)
@@ -330,7 +329,7 @@ type VisitorGeneratorLike interface {
 	GetClass() VisitorGeneratorClassLike
 	GenerateVisitorClass(
 		module string,
-		syntax ast.SyntaxLike,
+		syntax not.SyntaxLike,
 	) (
 		implementation string,
 	)
