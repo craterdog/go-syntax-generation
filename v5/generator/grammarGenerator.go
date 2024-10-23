@@ -135,7 +135,7 @@ func (v *grammarGenerator_) generateModuleImports(
 	implementation string,
 ) {
 	implementation = grammarGeneratorReference().moduleImports_
-	implementation = uti.ReplaceAll(implementation, "Module", module)
+	implementation = uti.ReplaceAll(implementation, "module", module)
 	return implementation
 }
 

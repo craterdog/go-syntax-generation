@@ -70,6 +70,13 @@ func TestGeneration(t *tes.T) {
 	}
 
 	// Generate the scanner class file.
+	filename = directory + "grammar/scanner.go"
+	source = gen.ScannerGenerator().Make().GenerateScannerClass(module, syntax)
+	bytes = []byte(source)
+	err = osx.WriteFile(filename, bytes, 0644)
+	if err != nil {
+		panic(err)
+	}
 
 	// Generate the token class file.
 
