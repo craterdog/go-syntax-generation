@@ -289,12 +289,12 @@ type validatorGeneratorClass_ struct {
 	moduleImports_       string
 	accessFunction_      string
 	constructorMethods_  string
+	primaryMethods_      string
 	methodicalMethods_   string
 	processToken_        string
 	processIndexedToken_ string
 	processRule_         string
 	processIndexedRule_  string
-	primaryMethods_      string
 	privateMethods_      string
 	instanceStructure_   string
 	classStructure_      string
@@ -363,6 +363,18 @@ func (c *validatorClass_) Make() ValidatorLike {
 	return instance
 }`,
 
+	primaryMethods_: `
+
+func (v *validator_) GetClass() ValidatorClassLike {
+	return validatorReference()
+}
+
+func (v *validator_) Validate<~SyntaxName>(
+	<syntaxName_> ast.<~SyntaxName>Like,
+) {
+	v.visitor_.Visit<~SyntaxName>(<syntaxName_>)
+}`,
+
 	methodicalMethods_: `<ProcessTokens><ProcessRules>`,
 
 	processToken_: `
@@ -425,18 +437,6 @@ func (v *validator_) Postprocess<~RuleName>(
 	size uint,
 ) {
 	// TBD - Add any validation checks.
-}`,
-
-	primaryMethods_: `
-
-func (v *validator_) GetClass() ValidatorClassLike {
-	return validatorReference()
-}
-
-func (v *validator_) Validate<~SyntaxName>(
-	<syntaxName_> ast.<~SyntaxName>Like,
-) {
-	v.visitor_.Visit<~SyntaxName>(<syntaxName_>)
 }`,
 
 	privateMethods_: `

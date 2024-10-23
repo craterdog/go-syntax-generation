@@ -293,59 +293,6 @@ func (v *scannerGenerator_) generatePackageDeclaration() (
 	return implementation
 }
 
-func (v *scannerGenerator_) generateProcessRule(
-	ruleName string,
-) (
-	implementation string,
-) {
-	implementation = scannerGeneratorReference().processRule_
-	if v.analyzer_.IsPlural(ruleName) {
-		implementation = scannerGeneratorReference().processIndexedRule_
-	}
-	implementation = uti.ReplaceAll(implementation, "ruleName", ruleName)
-	return implementation
-}
-
-func (v *scannerGenerator_) generateProcessRules() (
-	implementation string,
-) {
-	var iterator = v.analyzer_.GetRuleNames().GetIterator()
-	for iterator.HasNext() {
-		var ruleName = iterator.GetNext()
-		var processRule = v.generateProcessRule(ruleName)
-		implementation += processRule
-	}
-	return implementation
-}
-
-func (v *scannerGenerator_) generateProcessToken(
-	tokenName string,
-) (
-	implementation string,
-) {
-	if tokenName == "delimiter" {
-		return implementation
-	}
-	implementation = scannerGeneratorReference().processToken_
-	if v.analyzer_.IsPlural(tokenName) {
-		implementation = scannerGeneratorReference().processIndexedToken_
-	}
-	implementation = uti.ReplaceAll(implementation, "tokenName", tokenName)
-	return implementation
-}
-
-func (v *scannerGenerator_) generateProcessTokens() (
-	implementation string,
-) {
-	var iterator = v.analyzer_.GetTokenNames().GetIterator()
-	for iterator.HasNext() {
-		var tokenName = iterator.GetNext()
-		var processToken = v.generateProcessToken(tokenName)
-		implementation += processToken
-	}
-	return implementation
-}
-
 // Instance Structure
 
 type scannerGenerator_ struct {
@@ -363,12 +310,12 @@ type scannerGeneratorClass_ struct {
 	accessFunction_      string
 	constructorMethods_  string
 	functionMethods_     string
+	primaryMethods_      string
 	methodicalMethods_   string
 	processToken_        string
 	processIndexedToken_ string
 	processRule_         string
 	processIndexedRule_  string
-	primaryMethods_      string
 	privateMethods_      string
 	foundCase_           string
 	instanceStructure_   string
@@ -488,6 +435,12 @@ func (c *scannerClass_) MatchesType(
 	return result_
 }`,
 
+	primaryMethods_: `
+
+func (v *scanner_) GetClass() ScannerClassLike {
+	return scannerReference()
+}`,
+
 	methodicalMethods_: `<ProcessTokens><ProcessRules>`,
 
 	processToken_: `
@@ -550,12 +503,6 @@ func (v *scanner_) Postprocess<~RuleName>(
 	size uint,
 ) {
 	// TBD - Add any validation checks.
-}`,
-
-	primaryMethods_: `
-
-func (v *scanner_) GetClass() ScannerClassLike {
-	return scannerReference()
 }`,
 
 	privateMethods_: `

@@ -289,12 +289,12 @@ type processorGeneratorClass_ struct {
 	moduleImports_       string
 	accessFunction_      string
 	constructorMethods_  string
+	primaryMethods_      string
 	methodicalMethods_   string
 	processToken_        string
 	processIndexedToken_ string
 	processRule_         string
 	processIndexedRule_  string
-	primaryMethods_      string
 	privateMethods_      string
 	instanceStructure_   string
 	classStructure_      string
@@ -358,6 +358,12 @@ func (c *processorClass_) Make() ProcessorLike {
 	return instance
 }`,
 
+	primaryMethods_: `
+
+func (v *processor_) GetClass() ProcessorClassLike {
+	return processorReference()
+}`,
+
 	methodicalMethods_: `<ProcessTokens><ProcessRules>`,
 
 	processToken_: `
@@ -412,12 +418,6 @@ func (v *processor_) Postprocess<~RuleName>(
 	index uint,
 	size uint,
 ) {
-}`,
-
-	primaryMethods_: `
-
-func (v *processor_) GetClass() ProcessorClassLike {
-	return processorReference()
 }`,
 
 	privateMethods_: ``,

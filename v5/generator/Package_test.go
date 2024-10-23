@@ -79,6 +79,13 @@ func TestGeneration(t *tes.T) {
 	}
 
 	// Generate the token class file.
+	filename = directory + "grammar/token.go"
+	source = gen.TokenGenerator().Make().GenerateTokenClass(module, syntax)
+	bytes = []byte(source)
+	err = osx.WriteFile(filename, bytes, 0644)
+	if err != nil {
+		panic(err)
+	}
 
 	// Generate the validator class file.
 	filename = directory + "grammar/validator.go"
