@@ -528,11 +528,10 @@ func (v *visitor_) Visit<~SyntaxName>(
 
 	visitMethod_: `
 
-func (v *visitor_) visit<~TargetName>(<targetName_> ast.<~TargetName>Like) {<MethodImplementation>
-}`,
+func (v *visitor_) visit<~TargetName>(<targetName_> ast.<~TargetName>Like) {<MethodImplementation>}`,
 
 	multilineCases_: `
-	// Visit the possible <targetName> types.
+	// Visit the possible <~targetName> types.
 	switch actual := <targetName_>.GetAny().(type) {<RuleCases>
 	case string:
 		switch {<TokenCases>
@@ -565,7 +564,7 @@ func (v *visitor_) visit<~TargetName>(<targetName_> ast.<~TargetName>Like) {<Met
 			v.processor_.Process<~TokenName>(actual, 1, 1)`,
 
 	ruleBlock_: `
-	// Visit the <~ruleName> rule.
+	// Visit a single <~ruleName> rule.
 	var <variableName_> = <targetName_>.Get<~VariableName>()
 	v.processor_.Preprocess<~RuleName>(<variableName_>)
 	v.visit<~RuleName>(<variableName_>)
@@ -573,7 +572,7 @@ func (v *visitor_) visit<~TargetName>(<targetName_> ast.<~TargetName>Like) {<Met
 `,
 
 	singularRuleBlock_: `
-	// Visit the <~ruleName> rule.
+	// Visit a single <~ruleName> rule.
 	var <variableName_> = <targetName_>.Get<~VariableName>()
 	if uti.IsDefined(<variableName_>) {
 		v.processor_.Preprocess<~RuleName>(<variableName_>, 1, 1)
@@ -583,7 +582,7 @@ func (v *visitor_) visit<~TargetName>(<targetName_> ast.<~TargetName>Like) {<Met
 `,
 
 	optionalRuleBlock_: `
-	// Visit the optional <~ruleName> rule.
+	// Visit an optional <~ruleName> rule.
 	var <variableName_> = <targetName_>.Get<~VariableName>()
 	if uti.IsDefined(<variableName_>) {
 		v.processor_.Preprocess<~RuleName>(<variableName_>)
@@ -615,13 +614,13 @@ func (v *visitor_) visit<~TargetName>(<targetName_> ast.<~TargetName>Like) {<Met
 `,
 
 	tokenBlock_: `
-	// Visit the <~tokenName> token.
+	// Visit a single <~tokenName> token.
 	var <variableName_> = <targetName_>.Get<~VariableName>()
 	v.processor_.Process<~TokenName>(<variableName_>)
 `,
 
 	singularTokenBlock_: `
-	// Visit the <~tokenName> token.
+	// Visit a single <~tokenName> token.
 	var <variableName_> = <targetName_>.Get<~VariableName>()
 	if uti.IsDefined(<variableName_>) {
 		v.processor_.Process<~TokenName>(<variableName_>, 1, 1)
@@ -629,7 +628,7 @@ func (v *visitor_) visit<~TargetName>(<targetName_> ast.<~TargetName>Like) {<Met
 `,
 
 	optionalTokenBlock_: `
-	// Visit the optional <~tokenName> token.
+	// Visit an optional <~tokenName> token.
 	var <variableName_> = <targetName_>.Get<~VariableName>()
 	if uti.IsDefined(<variableName_>) {
 		v.processor_.Process<~TokenName>(<variableName_>)

@@ -62,16 +62,15 @@ func (v *visitor_) VisitSyntax(
 // Private Methods
 
 func (v *visitor_) visitAlternative(alternative ast.AlternativeLike) {
-	// Visit the option rule.
+	// Visit a single option rule.
 	var option = alternative.GetOption()
 	v.processor_.PreprocessOption(option)
 	v.visitOption(option)
 	v.processor_.PostprocessOption(option)
-
 }
 
 func (v *visitor_) visitCardinality(cardinality ast.CardinalityLike) {
-	// Visit the possible Cardinality types.
+	// Visit the possible cardinality types.
 	switch actual := cardinality.GetAny().(type) {
 	case ast.ConstrainedLike:
 		v.processor_.PreprocessConstrained(actual)
@@ -89,11 +88,10 @@ func (v *visitor_) visitCardinality(cardinality ast.CardinalityLike) {
 	default:
 		panic(fmt.Sprintf("Invalid rule type: %T", actual))
 	}
-
 }
 
 func (v *visitor_) visitCharacter(character ast.CharacterLike) {
-	// Visit the possible Character types.
+	// Visit the possible character types.
 	switch actual := character.GetAny().(type) {
 	case ast.ExplicitLike:
 		v.processor_.PreprocessExplicit(actual)
@@ -109,11 +107,10 @@ func (v *visitor_) visitCharacter(character ast.CharacterLike) {
 	default:
 		panic(fmt.Sprintf("Invalid rule type: %T", actual))
 	}
-
 }
 
 func (v *visitor_) visitConstrained(constrained ast.ConstrainedLike) {
-	// Visit the possible Constrained types.
+	// Visit the possible constrained types.
 	switch actual := constrained.GetAny().(type) {
 	case string:
 		switch {
@@ -127,11 +124,10 @@ func (v *visitor_) visitConstrained(constrained ast.ConstrainedLike) {
 	default:
 		panic(fmt.Sprintf("Invalid rule type: %T", actual))
 	}
-
 }
 
 func (v *visitor_) visitDefinition(definition ast.DefinitionLike) {
-	// Visit the possible Definition types.
+	// Visit the possible definition types.
 	switch actual := definition.GetAny().(type) {
 	case ast.MultilineLike:
 		v.processor_.PreprocessMultiline(actual)
@@ -149,11 +145,10 @@ func (v *visitor_) visitDefinition(definition ast.DefinitionLike) {
 	default:
 		panic(fmt.Sprintf("Invalid rule type: %T", actual))
 	}
-
 }
 
 func (v *visitor_) visitElement(element ast.ElementLike) {
-	// Visit the possible Element types.
+	// Visit the possible element types.
 	switch actual := element.GetAny().(type) {
 	case ast.GroupLike:
 		v.processor_.PreprocessGroup(actual)
@@ -175,36 +170,34 @@ func (v *visitor_) visitElement(element ast.ElementLike) {
 	default:
 		panic(fmt.Sprintf("Invalid rule type: %T", actual))
 	}
-
 }
 
 func (v *visitor_) visitExplicit(explicit ast.ExplicitLike) {
-	// Visit the glyph token.
+	// Visit a single glyph token.
 	var glyph = explicit.GetGlyph()
 	v.processor_.ProcessGlyph(glyph)
 
 	// Visit slot 1 between references.
 	v.processor_.ProcessExplicitSlot(1)
 
-	// Visit the optional extent rule.
+	// Visit an optional extent rule.
 	var optionalExtent = explicit.GetOptionalExtent()
 	if uti.IsDefined(optionalExtent) {
 		v.processor_.PreprocessExtent(optionalExtent)
 		v.visitExtent(optionalExtent)
 		v.processor_.PostprocessExtent(optionalExtent)
 	}
-
 }
 
 func (v *visitor_) visitExpression(expression ast.ExpressionLike) {
-	// Visit the lowercase token.
+	// Visit a single lowercase token.
 	var lowercase = expression.GetLowercase()
 	v.processor_.ProcessLowercase(lowercase)
 
 	// Visit slot 1 between references.
 	v.processor_.ProcessExpressionSlot(1)
 
-	// Visit the pattern rule.
+	// Visit a single pattern rule.
 	var pattern = expression.GetPattern()
 	v.processor_.PreprocessPattern(pattern)
 	v.visitPattern(pattern)
@@ -213,23 +206,21 @@ func (v *visitor_) visitExpression(expression ast.ExpressionLike) {
 	// Visit slot 2 between references.
 	v.processor_.ProcessExpressionSlot(2)
 
-	// Visit the optional note token.
+	// Visit an optional note token.
 	var optionalNote = expression.GetOptionalNote()
 	if uti.IsDefined(optionalNote) {
 		v.processor_.ProcessNote(optionalNote)
 	}
-
 }
 
 func (v *visitor_) visitExtent(extent ast.ExtentLike) {
-	// Visit the glyph token.
+	// Visit a single glyph token.
 	var glyph = extent.GetGlyph()
 	v.processor_.ProcessGlyph(glyph)
-
 }
 
 func (v *visitor_) visitFilter(filter ast.FilterLike) {
-	// Visit the optional excluded token.
+	// Visit an optional excluded token.
 	var optionalExcluded = filter.GetOptionalExcluded()
 	if uti.IsDefined(optionalExcluded) {
 		v.processor_.ProcessExcluded(optionalExcluded)
@@ -257,20 +248,18 @@ func (v *visitor_) visitFilter(filter ast.FilterLike) {
 			charactersSize,
 		)
 	}
-
 }
 
 func (v *visitor_) visitGroup(group ast.GroupLike) {
-	// Visit the pattern rule.
+	// Visit a single pattern rule.
 	var pattern = group.GetPattern()
 	v.processor_.PreprocessPattern(pattern)
 	v.visitPattern(pattern)
 	v.processor_.PostprocessPattern(pattern)
-
 }
 
 func (v *visitor_) visitIdentifier(identifier ast.IdentifierLike) {
-	// Visit the possible Identifier types.
+	// Visit the possible identifier types.
 	switch actual := identifier.GetAny().(type) {
 	case string:
 		switch {
@@ -284,7 +273,6 @@ func (v *visitor_) visitIdentifier(identifier ast.IdentifierLike) {
 	default:
 		panic(fmt.Sprintf("Invalid rule type: %T", actual))
 	}
-
 }
 
 func (v *visitor_) visitInline(inline ast.InlineLike) {
@@ -311,25 +299,23 @@ func (v *visitor_) visitInline(inline ast.InlineLike) {
 	// Visit slot 1 between references.
 	v.processor_.ProcessInlineSlot(1)
 
-	// Visit the optional note token.
+	// Visit an optional note token.
 	var optionalNote = inline.GetOptionalNote()
 	if uti.IsDefined(optionalNote) {
 		v.processor_.ProcessNote(optionalNote)
 	}
-
 }
 
 func (v *visitor_) visitLimit(limit ast.LimitLike) {
-	// Visit the optional number token.
+	// Visit an optional number token.
 	var optionalNumber = limit.GetOptionalNumber()
 	if uti.IsDefined(optionalNumber) {
 		v.processor_.ProcessNumber(optionalNumber)
 	}
-
 }
 
 func (v *visitor_) visitLine(line ast.LineLike) {
-	// Visit the identifier rule.
+	// Visit a single identifier rule.
 	var identifier = line.GetIdentifier()
 	v.processor_.PreprocessIdentifier(identifier)
 	v.visitIdentifier(identifier)
@@ -338,12 +324,11 @@ func (v *visitor_) visitLine(line ast.LineLike) {
 	// Visit slot 1 between references.
 	v.processor_.ProcessLineSlot(1)
 
-	// Visit the optional note token.
+	// Visit an optional note token.
 	var optionalNote = line.GetOptionalNote()
 	if uti.IsDefined(optionalNote) {
 		v.processor_.ProcessNote(optionalNote)
 	}
-
 }
 
 func (v *visitor_) visitMultiline(multiline ast.MultilineLike) {
@@ -366,14 +351,12 @@ func (v *visitor_) visitMultiline(multiline ast.MultilineLike) {
 			linesSize,
 		)
 	}
-
 }
 
 func (v *visitor_) visitNotice(notice ast.NoticeLike) {
-	// Visit the comment token.
+	// Visit a single comment token.
 	var comment = notice.GetComment()
 	v.processor_.ProcessComment(comment)
-
 }
 
 func (v *visitor_) visitOption(option ast.OptionLike) {
@@ -396,11 +379,10 @@ func (v *visitor_) visitOption(option ast.OptionLike) {
 			repetitionsSize,
 		)
 	}
-
 }
 
 func (v *visitor_) visitPattern(pattern ast.PatternLike) {
-	// Visit the option rule.
+	// Visit a single option rule.
 	var option = pattern.GetOption()
 	v.processor_.PreprocessOption(option)
 	v.visitOption(option)
@@ -428,29 +410,27 @@ func (v *visitor_) visitPattern(pattern ast.PatternLike) {
 			alternativesSize,
 		)
 	}
-
 }
 
 func (v *visitor_) visitQuantified(quantified ast.QuantifiedLike) {
-	// Visit the number token.
+	// Visit a single number token.
 	var number = quantified.GetNumber()
 	v.processor_.ProcessNumber(number)
 
 	// Visit slot 1 between references.
 	v.processor_.ProcessQuantifiedSlot(1)
 
-	// Visit the optional limit rule.
+	// Visit an optional limit rule.
 	var optionalLimit = quantified.GetOptionalLimit()
 	if uti.IsDefined(optionalLimit) {
 		v.processor_.PreprocessLimit(optionalLimit)
 		v.visitLimit(optionalLimit)
 		v.processor_.PostprocessLimit(optionalLimit)
 	}
-
 }
 
 func (v *visitor_) visitReference(reference ast.ReferenceLike) {
-	// Visit the identifier rule.
+	// Visit a single identifier rule.
 	var identifier = reference.GetIdentifier()
 	v.processor_.PreprocessIdentifier(identifier)
 	v.visitIdentifier(identifier)
@@ -459,18 +439,17 @@ func (v *visitor_) visitReference(reference ast.ReferenceLike) {
 	// Visit slot 1 between references.
 	v.processor_.ProcessReferenceSlot(1)
 
-	// Visit the optional cardinality rule.
+	// Visit an optional cardinality rule.
 	var optionalCardinality = reference.GetOptionalCardinality()
 	if uti.IsDefined(optionalCardinality) {
 		v.processor_.PreprocessCardinality(optionalCardinality)
 		v.visitCardinality(optionalCardinality)
 		v.processor_.PostprocessCardinality(optionalCardinality)
 	}
-
 }
 
 func (v *visitor_) visitRepetition(repetition ast.RepetitionLike) {
-	// Visit the element rule.
+	// Visit a single element rule.
 	var element = repetition.GetElement()
 	v.processor_.PreprocessElement(element)
 	v.visitElement(element)
@@ -479,34 +458,32 @@ func (v *visitor_) visitRepetition(repetition ast.RepetitionLike) {
 	// Visit slot 1 between references.
 	v.processor_.ProcessRepetitionSlot(1)
 
-	// Visit the optional cardinality rule.
+	// Visit an optional cardinality rule.
 	var optionalCardinality = repetition.GetOptionalCardinality()
 	if uti.IsDefined(optionalCardinality) {
 		v.processor_.PreprocessCardinality(optionalCardinality)
 		v.visitCardinality(optionalCardinality)
 		v.processor_.PostprocessCardinality(optionalCardinality)
 	}
-
 }
 
 func (v *visitor_) visitRule(rule ast.RuleLike) {
-	// Visit the uppercase token.
+	// Visit a single uppercase token.
 	var uppercase = rule.GetUppercase()
 	v.processor_.ProcessUppercase(uppercase)
 
 	// Visit slot 1 between references.
 	v.processor_.ProcessRuleSlot(1)
 
-	// Visit the definition rule.
+	// Visit a single definition rule.
 	var definition = rule.GetDefinition()
 	v.processor_.PreprocessDefinition(definition)
 	v.visitDefinition(definition)
 	v.processor_.PostprocessDefinition(definition)
-
 }
 
 func (v *visitor_) visitSyntax(syntax ast.SyntaxLike) {
-	// Visit the notice rule.
+	// Visit a single notice rule.
 	var notice = syntax.GetNotice()
 	v.processor_.PreprocessNotice(notice)
 	v.visitNotice(notice)
@@ -515,7 +492,7 @@ func (v *visitor_) visitSyntax(syntax ast.SyntaxLike) {
 	// Visit slot 1 between references.
 	v.processor_.ProcessSyntaxSlot(1)
 
-	// Visit the comment token.
+	// Visit a single comment token.
 	var comment1 = syntax.GetComment1()
 	v.processor_.ProcessComment(comment1)
 
@@ -545,7 +522,7 @@ func (v *visitor_) visitSyntax(syntax ast.SyntaxLike) {
 	// Visit slot 3 between references.
 	v.processor_.ProcessSyntaxSlot(3)
 
-	// Visit the comment token.
+	// Visit a single comment token.
 	var comment2 = syntax.GetComment2()
 	v.processor_.ProcessComment(comment2)
 
@@ -571,11 +548,10 @@ func (v *visitor_) visitSyntax(syntax ast.SyntaxLike) {
 			expressionsSize,
 		)
 	}
-
 }
 
 func (v *visitor_) visitTerm(term ast.TermLike) {
-	// Visit the possible Term types.
+	// Visit the possible term types.
 	switch actual := term.GetAny().(type) {
 	case ast.ReferenceLike:
 		v.processor_.PreprocessReference(actual)
@@ -591,11 +567,10 @@ func (v *visitor_) visitTerm(term ast.TermLike) {
 	default:
 		panic(fmt.Sprintf("Invalid rule type: %T", actual))
 	}
-
 }
 
 func (v *visitor_) visitText(text ast.TextLike) {
-	// Visit the possible Text types.
+	// Visit the possible text types.
 	switch actual := text.GetAny().(type) {
 	case string:
 		switch {
@@ -613,7 +588,6 @@ func (v *visitor_) visitText(text ast.TextLike) {
 	default:
 		panic(fmt.Sprintf("Invalid rule type: %T", actual))
 	}
-
 }
 
 // Instance Structure
