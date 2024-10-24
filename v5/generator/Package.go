@@ -172,6 +172,9 @@ type AnalyzerLike interface {
 	GetVariableType(
 		reference not.ReferenceLike,
 	) string
+	GetVariables(
+		ruleName string,
+	) abs.Sequential[not.ReferenceLike]
 	HasPlurals() bool
 	IsDelimited(
 		ruleName string,

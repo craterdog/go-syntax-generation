@@ -114,15 +114,15 @@ func (v *astGenerator_) generateClassDefinition(
 	implementation string,
 ) {
 	var parameters string
-	var attributes = v.analyzer_.GetReferences(className)
-	if uti.IsDefined(attributes) {
+	var variables = v.analyzer_.GetVariables(className)
+	if uti.IsDefined(variables) {
 		// This class represents an inline rule.
-		var references = attributes.GetIterator()
-		for references.HasNext() {
-			var reference = references.GetNext()
-			var isPlural = v.isPlural(reference)
-			var attributeName = v.analyzer_.GetVariableName(reference)
-			var attributeType = v.analyzer_.GetVariableType(reference)
+		var attributes = variables.GetIterator()
+		for attributes.HasNext() {
+			var attribute = attributes.GetNext()
+			var isPlural = v.isPlural(attribute)
+			var attributeName = v.analyzer_.GetVariableName(attribute)
+			var attributeType = v.analyzer_.GetVariableType(attribute)
 			parameters += v.generateParameter(
 				isPlural,
 				attributeName,
@@ -201,15 +201,15 @@ func (v *astGenerator_) generateInstanceDefinition(
 	implementation string,
 ) {
 	var getterMethods string
-	var attributes = v.analyzer_.GetReferences(className)
-	if uti.IsDefined(attributes) {
+	var variables = v.analyzer_.GetVariables(className)
+	if uti.IsDefined(variables) {
 		// This instance represents an inline rule.
-		var references = attributes.GetIterator()
-		for references.HasNext() {
-			var reference = references.GetNext()
-			var isPlural = v.isPlural(reference)
-			var attributeName = v.analyzer_.GetVariableName(reference)
-			var attributeType = v.analyzer_.GetVariableType(reference)
+		var attributes = variables.GetIterator()
+		for attributes.HasNext() {
+			var attribute = attributes.GetNext()
+			var isPlural = v.isPlural(attribute)
+			var attributeName = v.analyzer_.GetVariableName(attribute)
+			var attributeType = v.analyzer_.GetVariableType(attribute)
 			getterMethods += v.generateGetterMethod(
 				isPlural,
 				attributeName,

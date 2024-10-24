@@ -92,6 +92,10 @@ func (v *analyzer_) GetTokenNames() abs.Sequential[string] {
 	return v.tokenNames_
 }
 
+func (v *analyzer_) GetVariables(ruleName string) abs.Sequential[ast.ReferenceLike] {
+	return v.variables_.GetValue(ruleName)
+}
+
 func (v *analyzer_) GetVariableName(
 	reference ast.ReferenceLike,
 ) string {
@@ -411,7 +415,7 @@ func (v *analyzer_) PostprocessRule(
 	size uint,
 ) {
 	var ruleName = rule.GetUppercase()
-	v.uniquifyReferences(ruleName)
+	v.extractVariables(ruleName)
 	if v.hasLiteral_ {
 		v.delimited_.AddValue(ruleName)
 	}
@@ -434,6 +438,7 @@ func (v *analyzer_) PreprocessSyntax(syntax ast.SyntaxLike) {
 	v.regexps_ = col.Catalog[string, string](implicit)
 	v.terms_ = col.Catalog[string, abs.ListLike[ast.TermLike]]()
 	v.references_ = col.Catalog[string, abs.ListLike[ast.ReferenceLike]]()
+	v.variables_ = col.Catalog[string, abs.ListLike[ast.ReferenceLike]]()
 	v.identifiers_ = col.Catalog[string, abs.ListLike[ast.IdentifierLike]]()
 }
 
@@ -537,31 +542,35 @@ func (v *analyzer_) uniquifyReference(
 	)
 }
 
-func (v *analyzer_) uniquifyReferences(ruleName string) {
+func (v *analyzer_) extractVariables(ruleName string) {
 	var references = v.references_.GetValue(ruleName)
 	if uti.IsDefined(references) {
-		var left = references.GetIterator()
-		var right = references.GetIterator()
-		for left.HasNext() {
-			var leftReference = left.GetNext()
-			var leftName = leftReference.GetIdentifier().GetAny().(string)
-			right.ToSlot(left.GetSlot())
-			for right.HasNext() {
-				var count = 1
-				var rightReference = right.GetNext()
-				var rightName = rightReference.GetIdentifier().GetAny().(string)
-				if leftName == rightName {
-					if count == 1 {
-						leftReference = v.uniquifyReference(leftReference, count)
-						var index = left.GetSlot()
-						references.SetValue(index, leftReference)
+		var variables = col.List[ast.ReferenceLike](references)
+		if uti.IsDefined(references) {
+			var left = references.GetIterator()
+			var right = references.GetIterator()
+			for left.HasNext() {
+				var leftReference = left.GetNext()
+				var leftName = leftReference.GetIdentifier().GetAny().(string)
+				right.ToSlot(left.GetSlot())
+				for right.HasNext() {
+					var count = 1
+					var rightReference = right.GetNext()
+					var rightName = rightReference.GetIdentifier().GetAny().(string)
+					if leftName == rightName {
+						if count == 1 {
+							leftReference = v.uniquifyReference(leftReference, count)
+							var index = left.GetSlot()
+							variables.SetValue(index, leftReference)
+						}
+						count++
+						rightReference = v.uniquifyReference(rightReference, count)
+						var index = right.GetSlot()
+						variables.SetValue(index, rightReference)
 					}
-					count++
-					rightReference = v.uniquifyReference(rightReference, count)
-					var index = right.GetSlot()
-					references.SetValue(index, rightReference)
 				}
 			}
+			v.variables_.SetValue(ruleName, variables)
 		}
 	}
 }
@@ -588,6 +597,7 @@ type analyzer_ struct {
 	regexps_      abs.CatalogLike[string, string]
 	terms_        abs.CatalogLike[string, abs.ListLike[ast.TermLike]]
 	references_   abs.CatalogLike[string, abs.ListLike[ast.ReferenceLike]]
+	variables_    abs.CatalogLike[string, abs.ListLike[ast.ReferenceLike]]
 	identifiers_  abs.CatalogLike[string, abs.ListLike[ast.IdentifierLike]]
 
 	// Declare the inherited aspects.

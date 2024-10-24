@@ -97,4 +97,11 @@ func TestGeneration(t *tes.T) {
 	}
 
 	// Generate the visitor class file.
+	filename = directory + "grammar/visitor.go"
+	source = gen.VisitorGenerator().Make().GenerateVisitorClass(module, syntax)
+	bytes = []byte(source)
+	err = osx.WriteFile(filename, bytes, 0644)
+	if err != nil {
+		panic(err)
+	}
 }
